@@ -1,4 +1,5 @@
 
+
 <script  lang="ts">
 import PseudoRecomendations from './PseudoRecomendations.svelte'
 export let data:any
