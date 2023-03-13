@@ -4,7 +4,7 @@
 	let searchType='name'
 	import debounce from "just-debounce-it";
  
-//google where to import the KeyboardEventHandler
+// function to debounce user input as they type
 //@ts-ignore
 	const handleInput = debounce ((event:KeyboardEventHandler<HTMLInputElement>) => {
 		nameSearchParam = event.target.value;
@@ -14,6 +14,7 @@
 </script>
 
 <div class='searchInputContainer'>
+	<!-- toggle to search by artist or card name -->
 	<div class='searchToggle'>
 		<div class='toggleLabel'>Search by </div>
 		<div class='toggles'>
@@ -23,6 +24,7 @@
 			<div class="{searchType === 'artist' ? 'toggleActive' : 'toggleInactive'}" on:click="{() => searchType = 'artist'}">Artist Name</div>
 		</div>
 	</div>
+	<!-- type to search -->
 	<div id="search-input-cont">
 		<input type="text" 
 					id="search-field" 

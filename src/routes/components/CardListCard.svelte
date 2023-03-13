@@ -8,12 +8,15 @@
 </script>
         
  <div class='listCardContainerPadding'> 
+    <!-- card wrapped in clickable link that goes to card details -->
     <a class="overrideElStyles" data-sveltekit-reload href="/cardDetails/{cardId}">   
     <div class='listCardContainer'> 
+        <!-- card image -->
         <div class='listCardImageContainer'>
             <!-- svelte-ignore a11y-img-redundant-alt -->
             <img class ="cardImage" src={cardImageUrl} alt="card image">
         </div>
+        <!-- card information -->
         <div class='cardDataContainer'>
             {#if cardName !== undefined}
                 <div  class="cardDataItem">

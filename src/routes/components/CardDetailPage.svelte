@@ -115,7 +115,7 @@ export let data:any
       </div>
     </div>
   <!-- pseudo recomendations component -->
-  <PseudoRecomendations recomendationSetname={data.setCode}/>
+  <PseudoRecomendations recomendationSetname={data.set}/>
 
 
 <style>

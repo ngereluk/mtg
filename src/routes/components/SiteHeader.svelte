@@ -4,6 +4,7 @@ import siteIcon from '../../lib/assets/siteIcon.svg'
     
     
 <div class='siteHeader'>
+    <!-- header icon and link wrapped in clickalble link that goes to main page with list of cards -->
     <a class='siteHeaderContents' data-sveltekit-reload href="/cards">   
         <img
         src={siteIcon}

@@ -1,14 +1,12 @@
 import { json } from "@sveltejs/kit";
+import type { CardType } from "../../../types/card.type";
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }: { request: any }) {
-  const req = await request.json();
-  const pageNum = req.count;
-  const nameSearchParam = req.nameSearchParam.trim().replaceAll(" ", "%20");
-  const searchType = req.searchType.trim();
-  console.log({
-    searchType,
-  });
+  const req = await request.json(); //request contains page num, search terms and search field
+  const pageNum = req.count; //page number for pagination
+  const nameSearchParam = req.nameSearchParam.trim().replaceAll(" ", "%20"); //remove leading/trailing spaces and replace internal spaces with %20
+  const searchType = req.searchType; //the field to search (name or artist) for use in url (if being used to search for filtered results)
 
   const url =
     "https://api.magicthegathering.io/v1/cards?" +
@@ -18,7 +16,6 @@ export async function POST({ request }: { request: any }) {
     "&page=" +
     pageNum;
 
-  console.log("url ", url);
   const apiResponse = await fetch(url, {
     method: "GET",
     headers: {
@@ -27,11 +24,7 @@ export async function POST({ request }: { request: any }) {
   });
 
   const allCardsObj = await apiResponse.json();
-  const allCards = allCardsObj.cards;
-  console.log("cards returned from api ", allCards[0].name);
-  console.log("cards returned from api ", allCards[allCards.length - 1].name);
-
-  console.log("num cards returned from api ", allCards.length);
+  const allCards = allCardsObj.cards as CardType[]; //get cards array out of resposne
 
   return json(allCards);
 }

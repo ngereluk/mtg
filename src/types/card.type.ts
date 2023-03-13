@@ -1,3 +1,4 @@
+// type for card data (used individually and to type arrays)
 export type CardType = {
   manaCost: string;
   name: string;

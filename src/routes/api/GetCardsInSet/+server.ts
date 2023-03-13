@@ -3,7 +3,7 @@ import type { CardType } from "../../../types/card.type";
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }: { request: any }) {
-  const req = await request.json();
+  const req = await request.json(); //request contains set name
   const url =
     "https://api.magicthegathering.io/v1/cards?set=" +
     req.recomendationSetname +
@@ -17,6 +17,6 @@ export async function POST({ request }: { request: any }) {
   });
 
   const pseudoRec = await apiResponse.json();
-  const pseudoRecCards = pseudoRec.cards as CardType[];
+  const pseudoRecCards = pseudoRec.cards as CardType[]; //get cards array out of response and type it
   return json(pseudoRecCards);
 }

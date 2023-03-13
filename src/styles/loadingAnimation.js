@@ -1,5 +1,5 @@
 import { css } from "@emotion/css";
-
+// loading ainimation styles are defined here as are used in many components
 export const loadingText = css`
   color: #ababab;
   padding-top: 2%;

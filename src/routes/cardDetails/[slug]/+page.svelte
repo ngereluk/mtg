@@ -5,33 +5,14 @@
     import SiteHeader from '../../components/SiteHeader.svelte'
     import LoadingAnimation from '../../components/LoadingAnimation.svelte'
     import CardDetailsPage from '../../components/CardDetailPage.svelte'
-    import { loadingText,loadingAnimationContainer  } from '../../../styles/loadingAnimation';
+    import type { CardType } from "../../../types/card.type";
 
-  export  let data ={
-      manaCost: 0,
-      name: '',
-      cmc: 0,
-      artist: '',
-      subtype: [''],
-      colorIdentity:  [''],
-      colors:  [''],
-      setName: '',
-      setCode:'',
-      type: '',
-      types:  [''],
-      rarity: '',
-      text: '',
-      flavor: '',
-      number: '',
-      layout: '',
-      imageUrl: '',
-      id:'',
-      loading:false
-    }
+   export let data:CardType
+   let loading = true //will hide/show loading animation
 
-   onMount(async()=>{
-    //@ts-ignore
-    data.loading = true
+   onMount(async()=>{//get details for the card id (obtained from the page params slug)
+    console.log('loading ',loading)
+    loading = true
     const res =  await fetch("/api/GetCardDetails", {
         method: "POST",
         headers: {
@@ -41,42 +22,26 @@
             cardId: $page.params.slug
         }),
       });
-      const details = await res.json()
-      data = { 
-                manaCost: details.card.manaCost,
-                name: details.card.name,
-                cmc: details.card.cmc,
-                artist: details.card.artist,
-                subtype: details.card.subtypes,
-                colorIdentity:  details.card.colorIdentity,
-                colors:  details.card.colors,
-                setName: details.card.setName,
-                setCode: details.card.set,
-                type: details.card.type,
-                types:  details.card.types,
-                rarity: details.card.rarity,
-                text: details.card.text,
-                flavor: details.card.flavor,
-                number: details.card.number,
-                layout: details.card.layout,
-                imageUrl: details.card.imageUrl,
-                id: details.card.id,
-                loading:false
-              }       
+      const response = await res.json()
+      data = response as CardType
+      loading = false    
     })
+
   </script>
  
 <SiteHeader/>
 
-{#if data.loading === true}
+<!-- show loading animation while loading -->
+{#if loading === true} 
   <div class='padding'>
-    <div class={loadingAnimationContainer}>
+    <div class="loadingAnimationContainer">
       <LoadingAnimation />
-      <div class={loadingText}>Loading...</div>
+      <div class="loadingText">Loading...</div>
     </div>
   </div>
 
-{:else if  data.loading === false}
+  <!-- show card details component once data is loaded -->
+{:else if  loading === false}
   <CardDetailsPage data = {data}/>
 {/if} 
 
@@ -84,5 +49,24 @@
   .padding{
     padding-top:9%
   }
+/* note - in all other instances, the loadingText and loadingAnimationContainer classes
+are imported from styles.js (for organization). However, importing them here cause a lag - the styles took a sec
+to load and the animation at first would appear without its styles. Defining them here explicitly solves the issue */
+.loadingText{
+  color: #ababab;
+  padding-top: 2%;
+  font-weight: 700;
+  font-family: "Lucida Grande", monospace !important;
+}
+
+.loadingAnimationContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 20px;
+}
+
 </style>
   
